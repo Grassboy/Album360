@@ -1,0 +1,38 @@
+.tips {
+    pointer-events: none;
+    user-select: none;
+    position: fixed;
+    z-index: 2147483647;
+    color: white;
+    font-size: 1.5vmax;
+    text-shadow: 0 0 3px black,
+                 0 0 3px black,
+                 0 0 3px black,
+                 0 0 3px black;
+    opacity: 0.6;
+}
+.tips-photo {
+    bottom: 0;
+    left: 0;
+    max-height: 3em;
+    width: 14em;
+    margin-left: 7em;
+    margin-bottom: 7em;
+}
+.tips-sys {
+    width: 15em;
+    left: 50%;
+    top: 50%;
+    margin-top: 1.5em;
+    margin-left: -7.5em;
+    text-align: center;
+}
+.mobile-vr .tips-sys.tips-left {
+    left: 25%;
+}
+.mobile-vr .tips-sys.tips-right {
+    left: 75%;
+}
+.mobile-vr .tips-right {
+    left: 50%;
+}

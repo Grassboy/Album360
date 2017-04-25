@@ -1,1 +1,91 @@
-it works
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>2017 冰島行 - 全景相片集</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="js/preload.js?v=2"></script>
+    <script src="js/data.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="js/aframe.template.component.js"></script>
+    <script src="js/aframe.rotate-controls.component.js?v=2"></script>
+    <link rel="stylesheet" href="css/style.css?v=4" />
+	<meta property="og:image" content="http://grassboy.tw/album360/img/og_image.png" />
+	<meta property="og:url" content="http://grassboy.tw/album360/index.html" />
+	<meta property="fb:admins" content="663898857" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="2017 冰島行 - 全景相片集" />
+	<meta property="og:description" content="精選十五張冰島行全景相片，帶您一同身歷其境" />
+</head>
+<body>
+    <a-scene>
+        <a-assets id="assets" timeout="10000">
+            <!-- Image link template to be reused. -->
+            <script id="link-outer" type="text/html">
+                <a-entity class="link-outer" id="${id}" position="0 0 0" rotation="${rotation}">
+                    <a-circle class="link" desc="${desc}" action="${action}" cursor-listener="target: #album-player" radius="0.5" material="transparent: true; shader: flat; opacity: 0.3; src: ${src}" position="0 0 -9">
+                        <a-animation begin="mouseenter" easing="ease-in" attribute="material.opacity" fill="forwards" from="0.3" to="1" dur="200"></a-animation>
+                        <a-animation begin="mouseleave" easing="ease-in" attribute="material.opacity" fill="forwards" from="1" to="0.3" dur="200"></a-animation>
+                        <a-animation begin="click" attribute="material.opacity" fill="forwards" from="0.3" to="1" dur="100" repeat="3"></a-animation>
+                    </a-circle>
+                </a-entity>
+            </script>
+            <script id="img-thumb" type="text/html">
+                <a-box class="link" cursor-listener="target: #album-player" action="jumpto.${pid}" width="0.75" height="0.75" depth="0.15" material="transparent: true; shader: flat; src: ${src}; opacity: 0.8;">
+                    <a-animation begin="mouseenter" easing="ease-in" attribute="material.opacity" fill="forwards" from="0.8" to="1" dur="200"></a-animation>
+                    <a-animation begin="mouseenter" easing="ease-in" attribute="position" fill="forwards" to="0 0 0.3" dur="200"></a-animation>
+                    <a-animation begin="mouseenter" easing="ease-in" attribute="scale" fill="forwards" to="1.2 1.2 1.2" dur="200"></a-animation>
+                    <a-animation begin="mouseleave" easing="ease-in" attribute="material.opacity" fill="forwards" from="1" to="0.8" dur="200"></a-animation>
+                    <a-animation begin="mouseleave" easing="ease-in" attribute="position" fill="forwards" to="0 0 0" dur="200"></a-animation>
+                    <a-animation begin="mouseleave" easing="ease-in" attribute="scale" fill="forwards" to="1 1 1" dur="200"></a-animation>
+                    <a-animation begin="click" attribute="material.opacity" fill="forwards" from="0.3" to="1" dur="100" repeat="3"></a-animation>
+                </a-box>
+            </script>
+            <img id="icon-thumb" src="img/t01.png">
+            <img id="icon-prev" src="img/prev.png">
+            <img id="icon-next" src="img/next.png">
+            <img id="icon-play" src="img/play.png">
+            <img id="icon-pause" src="img/pause.png">
+            <img id="icon-grid" src="img/grid.png">
+            <img id="icon-grid-close" src="img/grid-close.png">
+            <img id="img-a" src="img/360a.JPG">
+            <a-mixin id="cube" geometry="primitive: box; depth: 0.15; height: 0.75; width: 0.75" rotation="0 0 0" material="color: #FFFBE0"></a-mixin>
+            
+        </a-assets>
+        <!-- Using the asset management system. -->
+        <a-entity id="album-player" album-360="photo_grid: #photo-grid" rotation="0 0 0" position="0 0 0">
+            <a-sky radius="10" src="#img-a" position="0 0 0" opacity="1"></a-sky>
+            <a-sky radius="10" src="#img-a" position="0 0 0" opacity="0">
+                <a-animation attribute="opacity" begin="to-side-a" from="1" to="0"></a-animation>
+                <a-animation attribute="opacity" begin="to-side-b" from="0" to="1"></a-animation>
+            </a-sky>
+            <!--<a-animation attribute="rotation" easing="linear" repeat="infinity" from="0 0 0" to="0 360 0" dur="30000"></a-animation>-->
+        </a-entity>
+        <a-entity id="navigator" rotation="0 0 0" scale="0 0 0">
+            <a-entity position="0 0 0" rotation="-38 0 0">
+                <a-entity id="photo-grid" scale="0 0 0" layout="type: box; columns: 5; margin: 1" position="-2 -1.5 -3"></a-entity>
+            </a-entity>
+            <a-entity template="src: #link-outer" data-src="#icon-prev" data-rotation="-77 30 0" data-id="nav-prev" data-action="prev" data-desc="上一張"></a-entity>
+            <a-entity template="src: #link-outer" data-src="#icon-pause" data-rotation="-75 0 0" data-id="nav-play" data-action="pause" data-desc="暫停/開始輪播"></a-entity>
+            <a-entity template="src: #link-outer" data-src="#icon-next" data-rotation="-77 -30 0" data-id="nav-next" data-action="next" data-desc="下一張"></a-entity>
+            <a-entity template="src: #link-outer" data-src="#icon-grid" data-rotation="-83 0 0" data-id="nav-all" data-action="grid" data-desc="顯示/隱藏所有照片"></a-entity>
+        </a-entity>
+
+        <a-camera user-height="0" wasd-controls="enabled: false" look-controls="enabled: true">
+            <a-cursor transparent="true" opacity="0" color="#FAFAFA" fuse="true" fuse-timeout="1000" position="0 0 -0.5" raycaster="objects: .link">
+                <a-animation begin="fusing" easing="ease-in" attribute="color" fill="backwards" from="#FF0000" to="#FFFF00" dur="1000"></a-animation>
+                <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.5 0.5 0.5" dur="1000"></a-animation>
+                <a-animation begin="mouseleave" attribute="color" fill="backwards" from="#FFFFFF" to="#FFFFFF" dur="100"></a-animation>
+                <a-animation begin="mouseleave" attribute="scale" fill="backwards" from="1 1 1" to="1 1 1" dur="100"></a-animation>
+            </a-cursor>
+        </a-camera>
+    </a-scene>
+    <div class="tips tips-photo tips-left"></div>
+    <div class="tips tips-photo tips-right"></div>
+    <div class="tips tips-sys tips-left"></div>
+    <div class="tips tips-sys tips-right"></div>
+    <script src="js/controller.js?v=2"></script>
+</body>
+</html>
+
